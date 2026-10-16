@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-gitops-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-gitops-app
+  template:
+    metadata:
+      labels:
+        app: devops-gitops-app
+    spec:
+      containers:
+        - name: flask-app
+          image: deep2025sms/devops-gitops-project:latest
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
